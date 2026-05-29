@@ -12,6 +12,7 @@
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
+    "pg": "^8.11.3",
     "@prisma/client": "^5.22.0",
     "axios": "^1.16.1",
     "bcryptjs": "^2.4.3",
