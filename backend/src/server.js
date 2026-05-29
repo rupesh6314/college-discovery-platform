@@ -24,9 +24,9 @@ app.listen(PORT, '0.0.0.0', () => {
 });
 
 // Graceful shutdown
-process.on('SIGTERM', () => {
-  console.log('SIGTERM signal received: closing HTTP server');
-  server.close(() => {
-    console.log('HTTP server closed');
-  });
-});
+// process.on('SIGTERM', () => {
+//   console.log('SIGTERM signal received: closing HTTP server');
+//   server.close(() => {
+//     console.log('HTTP server closed');
+//   });
+// });
