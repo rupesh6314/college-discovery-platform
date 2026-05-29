@@ -13,16 +13,7 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'dist',
-    sourcemap: false,
-    minify: 'terser',
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['framer-motion', 'react-icons', 'recharts'],
-        }
-      }
-    }
+    minify: false, // Disable minification to avoid terser error
+    sourcemap: false
   }
 })
