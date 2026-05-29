@@ -1,0 +1,138 @@
+const nodemailer = require('nodemailer')
+
+// Create transporter
+let transporter = null
+
+const getTransporter = () => {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      },
+      pool: true,
+      maxConnections: 5,
+      maxMessages: 100
+    })
+  }
+  return transporter
+}
+
+// Send welcome email
+const sendWelcomeEmail = async (email, name) => {
+  try {
+    const transporter = getTransporter()
+    
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: linear-gradient(135deg, #2563eb, #1e40af); padding: 30px; text-align: center;">
+          <h1 style="color: white; margin: 0;">Welcome to CollegeDiscovery!</h1>
+        </div>
+        <div style="padding: 30px; background: #f3f4f6;">
+          <h2 style="color: #1f2937;">Hello ${name},</h2>
+          <p style="color: #4b5563; line-height: 1.6;">Thank you for joining CollegeDiscovery! We're excited to help you find your perfect college.</p>
+          <p style="color: #4b5563; line-height: 1.6;">With CollegeDiscovery, you can:</p>
+          <ul style="color: #4b5563;">
+            <li>Compare 1000+ colleges across India</li>
+            <li>Read real student reviews</li>
+            <li>Get AI-powered recommendations</li>
+            <li>Save your favorite colleges</li>
+            <li>Ask questions to our community</li>
+          </ul>
+          <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/colleges" style="display: inline-block; background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 20px;">Explore Colleges</a>
+        </div>
+        <div style="padding: 20px; text-align: center; background: #1f2937; color: #9ca3af; font-size: 12px;">
+          <p>© 2024 CollegeDiscovery. All rights reserved.</p>
+          <p>If you didn't create an account, please ignore this email.</p>
+        </div>
+      </div>
+    `
+
+    await transporter.sendMail({
+      from: `"CollegeDiscovery" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: 'Welcome to CollegeDiscovery! 🎓',
+      html
+    })
+
+    console.log(`Welcome email sent to ${email}`)
+  } catch (error) {
+    console.error('Failed to send welcome email:', error)
+  }
+}
+
+// Send password reset email
+const sendPasswordResetEmail = async (email, token) => {
+  try {
+    const transporter = getTransporter()
+    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password?token=${token}`
+
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: linear-gradient(135deg, #2563eb, #1e40af); padding: 30px; text-align: center;">
+          <h1 style="color: white; margin: 0;">Reset Your Password</h1>
+        </div>
+        <div style="padding: 30px; background: #f3f4f6;">
+          <h2 style="color: #1f2937;">Password Reset Request</h2>
+          <p style="color: #4b5563; line-height: 1.6;">You requested to reset your password. Click the button below to create a new password:</p>
+          <a href="${resetUrl}" style="display: inline-block; background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin: 20px 0;">Reset Password</a>
+          <p style="color: #4b5563; line-height: 1.6;">This link will expire in 1 hour.</p>
+          <p style="color: #6b7280; font-size: 14px;">If you didn't request this, please ignore this email.</p>
+        </div>
+        <div style="padding: 20px; text-align: center; background: #1f2937; color: #9ca3af; font-size: 12px;">
+          <p>© 2024 CollegeDiscovery. All rights reserved.</p>
+        </div>
+      </div>
+    `
+
+    await transporter.sendMail({
+      from: `"CollegeDiscovery" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: 'Reset Your Password - CollegeDiscovery',
+      html
+    })
+
+    console.log(`Password reset email sent to ${email}`)
+  } catch (error) {
+    console.error('Failed to send password reset email:', error)
+  }
+}
+
+// Send email verification email
+const sendVerificationEmail = async (email, token) => {
+  try {
+    const transporter = getTransporter()
+    const verifyUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify-email?token=${token}`
+
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: linear-gradient(135deg, #2563eb, #1e40af); padding: 30px; text-align: center;">
+          <h1 style="color: white; margin: 0;">Verify Your Email</h1>
+        </div>
+        <div style="padding: 30px; background: #f3f4f6;">
+          <h2 style="color: #1f2937;">Email Verification</h2>
+          <p style="color: #4b5563; line-height: 1.6;">Please verify your email address to access all features of CollegeDiscovery.</p>
+          <a href="${verifyUrl}" style="display: inline-block; background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin: 20px 0;">Verify Email</a>
+        </div>
+      </div>
+    `
+
+    await transporter.sendMail({
+      from: `"CollegeDiscovery" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: 'Verify Your Email - CollegeDiscovery',
+      html
+    })
+
+    console.log(`Verification email sent to ${email}`)
+  } catch (error) {
+    console.error('Failed to send verification email:', error)
+  }
+}
+
+module.exports = {
+  sendWelcomeEmail,
+  sendPasswordResetEmail,
+  sendVerificationEmail
+}

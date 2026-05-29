@@ -1,0 +1,78 @@
+{
+  "iit-bombay": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7e/IIT_Bombay_Logo.svg/200px-IIT_Bombay_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/IIT_Bombay_Main_Gate.jpg/1200px-IIT_Bombay_Main_Gate.jpg",
+    "gallery": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/IIT_Bombay_Lake.jpg/800px-IIT_Bombay_Lake.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/IITB_Hostel.jpg/800px-IITB_Hostel.jpg"
+    ]
+  },
+  "iit-delhi": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3c/IIT_Delhi_Logo.svg/200px-IIT_Delhi_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/IIT_Delhi_Main_Building.jpg/1200px-IIT_Delhi_Main_Building.jpg"
+  },
+  "iit-madras": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/9/9e/IIT_Madras_Logo.svg/200px-IIT_Madras_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/IIT_Madras_Main_Building.jpg/1200px-IIT_Madras_Main_Building.jpg"
+  },
+  "iit-kanpur": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/IIT_Kanpur_Logo.svg/200px-IIT_Kanpur_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/IIT_Kanpur_Academic_Area.jpg/1200px-IIT_Kanpur_Academic_Area.jpg"
+  },
+  "iit-kharagpur": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/IIT_Kharagpur_Logo.svg/200px-IIT_Kharagpur_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/IIT_Kharagpur_Main_Building.jpg/1200px-IIT_Kharagpur_Main_Building.jpg"
+  },
+  "iit-roorkee": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/IIT_Roorkee_Logo.svg/200px-IIT_Roorkee_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/IIT_Roorkee_Main_Building.jpg/1200px-IIT_Roorkee_Main_Building.jpg"
+  },
+  "iit-guwahati": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/IIT_Guwahati_Logo.svg/200px-IIT_Guwahati_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/IIT_Guwahati_Main_Building.jpg/1200px-IIT_Guwahati_Main_Building.jpg"
+  },
+  "iit-hyderabad": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a8/IIT_Hyderabad_Logo.svg/200px-IIT_Hyderabad_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/IIT_Hyderabad_Academic_Block.jpg/1200px-IIT_Hyderabad_Academic_Block.jpg"
+  },
+  "bits-pilani": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/BITS_Pilani_Logo.svg/200px-BITS_Pilani_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/BITS_Pilani_Administration_Building.jpg/1200px-BITS_Pilani_Administration_Building.jpg"
+  },
+  "vit-vellore": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/VIT_University_Logo.svg/200px-VIT_University_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/VIT_University_Vellore.jpg/1200px-VIT_University_Vellore.jpg"
+  },
+  "nit-trichy": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/NIT_Trichy_Logo.svg/200px-NIT_Trichy_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/NITT_Main_Building.jpg/1200px-NITT_Main_Building.jpg"
+  },
+  "nit-surathkal": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/NITK_Logo.svg/200px-NITK_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/NITK_Main_Building.jpg/1200px-NITK_Main_Building.jpg"
+  },
+  "delhi-university": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/University_of_Delhi_Logo.svg/200px-University_of_Delhi_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Delhi_University_Vice_Regal_Lodge.jpg/1200px-Delhi_University_Vice_Regal_Lodge.jpg"
+  },
+  "mumbai-university": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/5/55/University_of_Mumbai_Logo.svg/200px-University_of_Mumbai_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/University_of_Mumbai_Rajabai_Tower.jpg/1200px-University_of_Mumbai_Rajabai_Tower.jpg"
+  },
+  "bhu": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4b/Banaras_Hindu_University_Logo.svg/200px-Banaras_Hindu_University_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Banaras_Hindu_University_Main_Gate.jpg/1200px-Banaras_Hindu_University_Main_Gate.jpg"
+  },
+  "iiit-hyderabad": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/IIIT_Hyderabad_Logo.svg/200px-IIIT_Hyderabad_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/IIIT_Hyderabad_Main_Building.jpg/1200px-IIIT_Hyderabad_Main_Building.jpg"
+  },
+  "coep": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/5/5d/COEP_Logo.svg/200px-COEP_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/COEP_Main_Building.jpg/1200px-COEP_Main_Building.jpg"
+  },
+  "dtu": {
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/1/1b/DTU_Logo.svg/200px-DTU_Logo.svg.png",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/DTU_Delhi_Main_Building.jpg/1200px-DTU_Delhi_Main_Building.jpg"
+  }
+}
