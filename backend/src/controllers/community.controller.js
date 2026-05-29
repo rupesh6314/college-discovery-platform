@@ -22,9 +22,15 @@ exports.getQuestions = async (req, res) => {
     
     const total = await prisma.question.count()
     
+    // Format questions so tags is an array
+    const formattedQuestions = questions.map(q => ({
+      ...q,
+      tags: q.tags ? q.tags.split(',').map(t => t.trim()) : []
+    }))
+    
     res.json({
       success: true,
-      questions,
+      questions: formattedQuestions,
       topContributors: [],
       pagination: {
         page: parseInt(page),
@@ -61,9 +67,15 @@ exports.getQuestionById = async (req, res) => {
       return res.status(404).json({ error: 'Question not found' })
     }
     
+    // Format question so tags is an array
+    const formattedQuestion = {
+      ...question,
+      tags: question.tags ? question.tags.split(',').map(t => t.trim()) : []
+    }
+    
     res.json({
       success: true,
-      question,
+      question: formattedQuestion,
       answers: question.answers
     })
   } catch (error) {
@@ -77,11 +89,14 @@ exports.createQuestion = async (req, res) => {
   try {
     const { title, content, tags, collegeId } = req.body
     
+    // Convert array of tags to comma-separated string for database
+    const tagsString = Array.isArray(tags) ? tags.join(',') : (tags || null)
+    
     const question = await prisma.question.create({
       data: {
         title,
         content,
-        tags: tags || null,
+        tags: tagsString,
         collegeId: collegeId || null,
         userId: req.user.id
       },
@@ -90,7 +105,13 @@ exports.createQuestion = async (req, res) => {
       }
     })
     
-    res.status(201).json({ success: true, question })
+    // Format question so tags is an array
+    const formattedQuestion = {
+      ...question,
+      tags: question.tags ? question.tags.split(',').map(t => t.trim()) : []
+    }
+    
+    res.status(201).json({ success: true, question: formattedQuestion })
   } catch (error) {
     console.error('Create question error:', error)
     res.status(500).json({ error: error.message })
