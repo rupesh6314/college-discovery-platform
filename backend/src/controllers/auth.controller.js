@@ -73,12 +73,11 @@ exports.register = async (req, res) => {
     const token = generateToken(user.id);
     const refreshToken = generateRefreshToken(user.id);
 
-    // Send welcome email
-    try {
-      await emailService.sendWelcomeEmail(user.email, user.name);
-    } catch (emailError) {
-      console.error('Welcome email failed:', emailError);
-    }
+    // Send welcome email in the background without awaiting it
+    // This prevents the registration request from timing out if SMTP is blocked (e.g. on Render)
+    emailService.sendWelcomeEmail(user.email, user.name).catch(emailError => {
+      console.error('Welcome email failed in background:', emailError);
+    });
 
     res.status(201).json({
       success: true,
