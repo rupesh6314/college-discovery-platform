@@ -1,4 +1,3 @@
-// backend/src/app.js
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -7,64 +6,51 @@ const rateLimit = require('express-rate-limit');
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
-
-// Import routes
-const authRoutes = require('./routes/auth.routes');
-const collegeRoutes = require('./routes/college.routes');
-const compareRoutes = require('./routes/compare.routes');
-const reviewRoutes = require('./routes/review.routes');
-const userRoutes = require('./routes/user.routes');
-const communityRoutes = require('./routes/community.routes');
-
 const app = express();
 
-// Security middleware
-app.use(helmet({
-  contentSecurityPolicy: false,
-  crossOriginEmbedderPolicy: false,
-}));
-
-// CORS configuration
+// ============ WORKING CORS CONFIGURATION ============
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-  credentials: true,
+  origin: '*', // Allow all origins for testing
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: false,
   optionsSuccessStatus: 200
 }));
 
-// Compression
-app.use(compression());
+// Pre-flight requests
+app.options('*', cors());
 
-// Body parsing
+// Security (with CORS-friendly settings)
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  crossOriginOpenerPolicy: false,
+  contentSecurityPolicy: false
+}));
+
+app.use(compression());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 200, // limit each IP to 200 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.',
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+  message: 'Too many requests from this IP',
   standardHeaders: true,
   legacyHeaders: false,
 });
 app.use('/api/', limiter);
 
-// Auth routes have stricter limits
-const authLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 10, // 10 attempts per hour
-  skipSuccessfulRequests: true,
-});
-app.use('/api/auth/', authLimiter);
-
-// Health check endpoint
+// ============ HEALTH CHECK ============
 app.get('/health', async (req, res) => {
   try {
+    // Test database connection
     await prisma.$queryRaw`SELECT 1`;
     res.json({
       status: 'healthy',
       timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
-      database: 'connected'
+      database: 'connected',
+      uptime: process.uptime()
     });
   } catch (error) {
     res.status(500).json({
@@ -76,7 +62,14 @@ app.get('/health', async (req, res) => {
   }
 });
 
-// Routes
+// ============ ROUTES ============
+const authRoutes = require('./routes/auth.routes');
+const collegeRoutes = require('./routes/college.routes');
+const compareRoutes = require('./routes/compare.routes');
+const reviewRoutes = require('./routes/review.routes');
+const userRoutes = require('./routes/user.routes');
+const communityRoutes = require('./routes/community.routes');
+
 app.use('/api/auth', authRoutes);
 app.use('/api/colleges', collegeRoutes);
 app.use('/api/compare', compareRoutes);
@@ -86,21 +79,13 @@ app.use('/api/community', communityRoutes);
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+  res.status(404).json({ error: `Route not found: ${req.method} ${req.url}` });
 });
 
-// Global error handler
+// Error handler
 app.use((err, req, res, next) => {
-  console.error('Error:', err.stack);
-  
-  const status = err.status || 500;
-  const message = err.message || 'Internal server error';
-  
-  res.status(status).json({
-    error: message,
-    timestamp: new Date().toISOString(),
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-  });
+  console.error('Error:', err.message);
+  res.status(500).json({ error: 'Internal server error', message: err.message });
 });
 
 module.exports = app;
