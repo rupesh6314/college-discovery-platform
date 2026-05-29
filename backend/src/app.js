@@ -8,6 +8,9 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const app = express();
 
+// Trust proxy for Render deployment so rate limit works correctly
+app.set('trust proxy', 1);
+
 // ============ WORKING CORS CONFIGURATION ============
 app.use(cors({
   origin: '*', // Allow all origins for testing
