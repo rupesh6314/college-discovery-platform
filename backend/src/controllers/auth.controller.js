@@ -237,6 +237,7 @@ exports.updateProfile = async (req, res) => {
         id: true,
         name: true,
         email: true,
+        pendingEmail: true,
         phone: true,
         city: true,
         state: true,
@@ -301,8 +302,7 @@ exports.forgotPassword = async (req, res) => {
 
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      // Return success anyway to prevent email enumeration
-      return res.json({ success: true, message: 'If an account exists, a verification code has been sent.' });
+      return res.status(404).json({ error: 'User Mail Not found' });
     }
 
     // Generate code and expiration (15 minutes from now)
@@ -389,5 +389,82 @@ exports.resetPassword = async (req, res) => {
   } catch (error) {
     console.error('Reset password error:', error);
     res.status(400).json({ error: 'Invalid or expired reset session' });
+  }
+};
+
+exports.requestEmailChange = async (req, res) => {
+  try {
+    const { newEmail } = req.body;
+    
+    // Check if new email is already in use
+    const existingUser = await prisma.user.findUnique({ where: { email: newEmail } });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email is already in use' });
+    }
+
+    const emailChangeCode = generateVerificationCode();
+    const expires = new Date(Date.now() + 15 * 60 * 1000);
+
+    await prisma.user.update({
+      where: { id: req.user.id },
+      data: {
+        pendingEmail: newEmail,
+        emailChangeCode,
+        emailChangeExpires: expires
+      }
+    });
+
+    emailService.sendEmailChangeCode(newEmail, emailChangeCode).catch(console.error);
+
+    res.json({ success: true, message: 'Verification code sent to new email' });
+  } catch (error) {
+    console.error('Request email change error:', error);
+    res.status(500).json({ error: 'Failed to request email change' });
+  }
+};
+
+exports.verifyEmailChange = async (req, res) => {
+  try {
+    const { code } = req.body;
+    
+    const user = await prisma.user.findUnique({ where: { id: req.user.id } });
+
+    if (!user || user.emailChangeCode !== code || !user.emailChangeExpires || !user.pendingEmail) {
+      return res.status(400).json({ error: 'Invalid verification code' });
+    }
+
+    if (new Date() > user.emailChangeExpires) {
+      return res.status(400).json({ error: 'Verification code has expired' });
+    }
+
+    // Check if another user took the email in the meantime
+    const existingUser = await prisma.user.findUnique({ where: { email: user.pendingEmail } });
+    if (existingUser && existingUser.id !== user.id) {
+      return res.status(400).json({ error: 'Email is already in use by another account' });
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        email: user.pendingEmail,
+        pendingEmail: null,
+        emailChangeCode: null,
+        emailChangeExpires: null
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        city: true,
+        state: true,
+        role: true
+      }
+    });
+
+    res.json({ success: true, user: updatedUser, message: 'Email updated successfully' });
+  } catch (error) {
+    console.error('Verify email change error:', error);
+    res.status(500).json({ error: 'Failed to update email' });
   }
 };

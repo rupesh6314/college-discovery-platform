@@ -15,6 +15,8 @@ router.post('/reset-password', authController.resetPassword)
 // Protected routes
 router.get('/me', protect, authController.getMe)
 router.put('/profile', protect, authController.updateProfile)
+router.post('/request-email-change', protect, authController.requestEmailChange)
+router.post('/verify-email-change', protect, authController.verifyEmailChange)
 router.post('/change-password', protect, authController.changePassword)
 
 module.exports = router

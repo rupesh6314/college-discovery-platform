@@ -20,6 +20,9 @@ model User {
   verificationToken String?
   resetPasswordCode String?
   resetPasswordExpires DateTime?
+  pendingEmail      String?
+  emailChangeCode   String?
+  emailChangeExpires DateTime?
   phone           String?
   city            String?
   state           String?

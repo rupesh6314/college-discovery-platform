@@ -166,9 +166,48 @@ const sendVerificationEmail = async (email, token) => {
   }
 }
 
+// Send email change verification code
+const sendEmailChangeCode = async (email, code) => {
+  try {
+    const transporter = getTransporter()
+
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: linear-gradient(135deg, #2563eb, #1e40af); padding: 30px; text-align: center;">
+          <h1 style="color: white; margin: 0;">Verify Your New Email</h1>
+        </div>
+        <div style="padding: 30px; background: #f3f4f6; text-align: center;">
+          <h2 style="color: #1f2937;">Email Change Verification</h2>
+          <p style="color: #4b5563; line-height: 1.6;">You requested to change your CollegeDiscovery email to this address. Please use the verification code below:</p>
+          <div style="background: #e5e7eb; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h1 style="color: #1f2937; letter-spacing: 5px; font-family: monospace; margin: 0;">${code}</h1>
+          </div>
+          <p style="color: #4b5563; line-height: 1.6;">This code will expire in 15 minutes.</p>
+          <p style="color: #6b7280; font-size: 14px;">If you didn't request this, please ignore this email.</p>
+        </div>
+        <div style="padding: 20px; text-align: center; background: #1f2937; color: #9ca3af; font-size: 12px;">
+          <p>© 2024 CollegeDiscovery. All rights reserved.</p>
+        </div>
+      </div>
+    `
+
+    await transporter.sendMail({
+      from: `"CollegeDiscovery" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: 'Verify Your New Email - CollegeDiscovery',
+      html
+    })
+
+    console.log(`Email change verification code sent to ${email}`)
+  } catch (error) {
+    console.error('Failed to send email change verification code:', error)
+  }
+}
+
 module.exports = {
   sendWelcomeEmail,
   sendPasswordResetEmail,
   sendPasswordChangedEmail,
-  sendVerificationEmail
+  sendVerificationEmail,
+  sendEmailChangeCode
 }
