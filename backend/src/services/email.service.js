@@ -1,11 +1,37 @@
-const { Resend } = require('resend');
+const axios = require('axios');
 
-// Initialize Resend with API key
-// Using a fallback for local development if the env var isn't loaded yet
-const resend = new Resend(process.env.RESEND_API_KEY);
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
 
-// For Resend's free tier, you MUST use their verified onboarding domain
-const FROM_EMAIL = 'CollegeDiscovery <onboarding@resend.dev>';
+// The email address you registered and verified on Brevo
+const SENDER_EMAIL = 'rupesh.madhuvarsu2005@gmail.com'; 
+
+const sendBrevoEmail = async (to, subject, htmlContent) => {
+  try {
+    const response = await axios.post(
+      'https://api.brevo.com/v3/smtp/email',
+      {
+        sender: {
+          name: "CollegeDiscovery",
+          email: SENDER_EMAIL
+        },
+        to: [{ email: to }],
+        subject: subject,
+        htmlContent: htmlContent
+      },
+      {
+        headers: {
+          'accept': 'application/json',
+          'api-key': BREVO_API_KEY,
+          'content-type': 'application/json'
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Brevo API Error:', error.response ? error.response.data : error.message);
+    throw error;
+  }
+};
 
 // Send welcome email
 const sendWelcomeEmail = async (email, name) => {
@@ -28,15 +54,8 @@ const sendWelcomeEmail = async (email, name) => {
       </div>
     `;
 
-    const { data, error } = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: email,
-      subject: 'Welcome to CollegeDiscovery! 🎓',
-      html
-    });
-
-    if (error) throw error;
-    console.log(`Welcome email sent to ${email} via Resend`);
+    await sendBrevoEmail(email, 'Welcome to CollegeDiscovery! 🎓', html);
+    console.log(`Welcome email sent to ${email} via Brevo`);
   } catch (error) {
     console.error('Failed to send welcome email:', error);
   }
@@ -61,15 +80,8 @@ const sendPasswordResetEmail = async (email, code) => {
       </div>
     `;
 
-    const { data, error } = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: email,
-      subject: 'Your Password Reset Code - CollegeDiscovery',
-      html
-    });
-
-    if (error) throw error;
-    console.log(`Password reset code email sent to ${email} via Resend`);
+    await sendBrevoEmail(email, 'Your Password Reset Code - CollegeDiscovery', html);
+    console.log(`Password reset code email sent to ${email} via Brevo`);
   } catch (error) {
     console.error('Failed to send password reset code email:', error);
   }
@@ -90,15 +102,8 @@ const sendPasswordChangedEmail = async (email) => {
       </div>
     `;
 
-    const { data, error } = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: email,
-      subject: 'Security Alert: Password Updated - CollegeDiscovery',
-      html
-    });
-
-    if (error) throw error;
-    console.log(`Password changed confirmation email sent to ${email} via Resend`);
+    await sendBrevoEmail(email, 'Security Alert: Password Updated - CollegeDiscovery', html);
+    console.log(`Password changed confirmation email sent to ${email} via Brevo`);
   } catch (error) {
     console.error('Failed to send password changed email:', error);
   }
@@ -123,15 +128,8 @@ const sendEmailChangeCode = async (email, code) => {
       </div>
     `;
 
-    const { data, error } = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: email,
-      subject: 'Verify Your New Email - CollegeDiscovery',
-      html
-    });
-
-    if (error) throw error;
-    console.log(`Email change verification code sent to ${email} via Resend`);
+    await sendBrevoEmail(email, 'Verify Your New Email - CollegeDiscovery', html);
+    console.log(`Email change verification code sent to ${email} via Brevo`);
   } catch (error) {
     console.error('Failed to send email change verification code:', error);
   }
