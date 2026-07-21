@@ -18,6 +18,8 @@ model User {
   role            String    @default("STUDENT")
   isVerified      Boolean   @default(false)
   verificationToken String?
+  resetPasswordCode String?
+  resetPasswordExpires DateTime?
   phone           String?
   city            String?
   state           String?

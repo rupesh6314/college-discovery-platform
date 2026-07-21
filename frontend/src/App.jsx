@@ -17,6 +17,7 @@ import DashboardPage from './pages/DashboardPage'
 import SavedPage from './pages/SavedPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import CommunityPage from './pages/CommunityPage'
 import QuestionDetailPage from './pages/QuestionDetailPage'
 
@@ -49,6 +50,7 @@ function App() {
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
+          <Route path="forgot-password" element={<ForgotPasswordPage />} />
         </Route>
 
         <Route path="/app" element={<PrivateRoute />}>

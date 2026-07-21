@@ -9,6 +9,7 @@ router.post('/register', validateRegister, handleValidationErrors, authControlle
 router.post('/login', validateLogin, handleValidationErrors, authController.login)
 router.post('/refresh', authController.refreshToken)
 router.post('/forgot-password', authController.forgotPassword)
+router.post('/verify-code', authController.verifyResetCode)
 router.post('/reset-password', authController.resetPassword)
 
 // Protected routes

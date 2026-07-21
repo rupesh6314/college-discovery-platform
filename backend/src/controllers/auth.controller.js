@@ -285,23 +285,71 @@ exports.changePassword = async (req, res) => {
   }
 };
 
+// Generate a random 6-character alphanumeric code
+const generateVerificationCode = () => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = '';
+  for (let i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
+};
+
 exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      return res.status(404).json({ error: 'User not found with this email' });
+      // Return success anyway to prevent email enumeration
+      return res.json({ success: true, message: 'If an account exists, a verification code has been sent.' });
     }
 
-    const resetToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    
-    await emailService.sendPasswordResetEmail(email, resetToken);
+    // Generate code and expiration (15 minutes from now)
+    const resetCode = generateVerificationCode();
+    const expires = new Date(Date.now() + 15 * 60 * 1000);
 
-    res.json({ success: true, message: 'Password reset email sent' });
+    // Save to database
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        resetPasswordCode: resetCode,
+        resetPasswordExpires: expires
+      }
+    });
+    
+    // Send email asynchronously
+    emailService.sendPasswordResetEmail(email, resetCode).catch(console.error);
+
+    res.json({ success: true, message: 'Password reset code sent' });
   } catch (error) {
     console.error('Forgot password error:', error);
-    res.status(500).json({ error: 'Failed to send reset email' });
+    res.status(500).json({ error: 'Failed to send reset code' });
+  }
+};
+
+exports.verifyResetCode = async (req, res) => {
+  try {
+    const { email, code } = req.body;
+
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user || user.resetPasswordCode !== code || !user.resetPasswordExpires) {
+      return res.status(400).json({ error: 'Invalid verification code' });
+    }
+
+    if (new Date() > user.resetPasswordExpires) {
+      return res.status(400).json({ error: 'Verification code has expired' });
+    }
+
+    // Code is valid. Issue a temporary short-lived token just for password resetting.
+    // This token is valid for 15 minutes.
+    const tempToken = jwt.sign({ id: user.id, purpose: 'password_reset' }, process.env.JWT_SECRET, { expiresIn: '15m' });
+
+    res.json({ success: true, tempToken });
+  } catch (error) {
+    console.error('Verify reset code error:', error);
+    res.status(500).json({ error: 'Failed to verify code' });
   }
 };
 
@@ -310,23 +358,36 @@ exports.resetPassword = async (req, res) => {
     const { token, newPassword } = req.body;
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    if (decoded.purpose !== 'password_reset') {
+      return res.status(400).json({ error: 'Invalid token type' });
+    }
+
     const user = await prisma.user.findUnique({ where: { id: decoded.id } });
 
     if (!user) {
-      return res.status(400).json({ error: 'Invalid or expired reset token' });
+      return res.status(400).json({ error: 'User not found' });
     }
 
     const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
+    // Update password and clear reset fields
     await prisma.user.update({
       where: { id: user.id },
-      data: { password: hashedPassword }
+      data: { 
+        password: hashedPassword,
+        resetPasswordCode: null,
+        resetPasswordExpires: null
+      }
     });
+
+    // Notify user asynchronously
+    emailService.sendPasswordChangedEmail(user.email).catch(console.error);
 
     res.json({ success: true, message: 'Password reset successfully' });
   } catch (error) {
     console.error('Reset password error:', error);
-    res.status(400).json({ error: 'Invalid or expired reset token' });
+    res.status(400).json({ error: 'Invalid or expired reset session' });
   }
 };
