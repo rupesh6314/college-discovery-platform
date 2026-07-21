@@ -7,7 +7,7 @@ const validateRegister = [
     .isLength({ min: 2, max: 100 }).withMessage('Name must be between 2 and 100 characters'),
   body('email')
     .isEmail().withMessage('Please provide a valid email')
-    .normalizeEmail(),
+    .normalizeEmail({ gmail_remove_dots: false }),
   body('password')
     .isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
     .matches(/^(?=.*[A-Za-z])(?=.*\d)/).withMessage('Password must contain at least one letter and one number')
@@ -17,7 +17,7 @@ const validateRegister = [
 const validateLogin = [
   body('email')
     .isEmail().withMessage('Please provide a valid email')
-    .normalizeEmail(),
+    .normalizeEmail({ gmail_remove_dots: false }),
   body('password')
     .notEmpty().withMessage('Password is required')
 ]
