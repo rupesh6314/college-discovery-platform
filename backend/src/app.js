@@ -44,7 +44,11 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// ============ HEALTH CHECK ============
+// ============ HEALTH CHECK & ROOT ============
+app.get('/', (req, res) => {
+  res.status(200).json({ status: 'online', message: 'College Discovery API is running' });
+});
+
 app.get('/health', async (req, res) => {
   try {
     // Test database connection
