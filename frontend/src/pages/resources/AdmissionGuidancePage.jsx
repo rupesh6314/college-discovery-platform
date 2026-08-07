@@ -28,7 +28,7 @@ const AdmissionGuidancePage = () => {
               Getting into your dream college requires more than just good grades. It requires a strategic approach to applications, a deep understanding of what colleges look for, and the ability to present your unique story effectively.
             </p>
             <p>
-              Our admission guidance program connects you with experienced counselors who have helped thousands of students secure seats in top-tier institutions across India.
+              Our admission guidance program connects you with experienced counselors who have helped 50+ students secure seats in top-tier institutions across India.
             </p>
           </div>
 
@@ -43,9 +43,9 @@ const AdmissionGuidancePage = () => {
           </div>
           
           <div className="mt-16 text-center">
-            <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+            <a href="mailto:supportcollegediscovery@gmail.com?subject=Book a Free Session" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
               Book a Free Session
-            </button>
+            </a>
           </div>
         </div>
       </section>
