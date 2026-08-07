@@ -2,8 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiSearch, FiBarChart2, FiUsers, FiStar, FiTrendingUp, FiAward } from 'react-icons/fi'
+import { useQuery } from 'react-query'
+import { collegeService } from '../services/college.service'
 
 const HomePage = () => {
+  const { data: collegesData } = useQuery('collegesCount', () => collegeService.getAllColleges({ page: 1, limit: 1 }))
+  const realCollegeCount = collegesData?.pagination?.total ? `${collegesData.pagination.total}+` : '...'
+
   const features = [
     { icon: FiSearch, title: 'Smart Search', description: 'Find colleges by name, location, courses, or exams with advanced filters', color: 'text-blue-600' },
     { icon: FiBarChart2, title: 'Unlimited Comparison', description: 'Compare 2-20 colleges side-by-side across 50+ parameters', color: 'text-green-600' },
@@ -14,9 +19,9 @@ const HomePage = () => {
   ]
 
   const stats = [
-    { number: '1000+', label: 'Colleges' },
+    { number: realCollegeCount, label: 'Colleges' },
     { number: '50+', label: 'Comparison Parameters' },
-    { number: '10K+', label: 'Student Reviews' },
+    { number: '50+', label: 'Students Using' },
     { number: '100%', label: 'Free Forever' }
   ]
 
@@ -26,7 +31,7 @@ const HomePage = () => {
         <div className="container-custom py-20">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Find Your Perfect College Journey</h1>
-            <p className="text-xl mb-8 text-blue-100">Compare 1000+ colleges, read real reviews, and make informed decisions about your future</p>
+            <p className="text-xl mb-8 text-blue-100">Compare {realCollegeCount} colleges, read real reviews, and make informed decisions about your future</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/colleges" className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">Explore Colleges</Link>
               <Link to="/compare" className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">Start Comparing</Link>
