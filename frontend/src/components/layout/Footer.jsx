@@ -40,10 +40,8 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Connect</h3>
             <div className="flex space-x-4 mb-4">
-              <a href="#" className="text-gray-400 hover:text-white transition"><FiGithub size={20} /></a>
-              <a href="#" className="text-gray-400 hover:text-white transition"><FiTwitter size={20} /></a>
-              <a href="#" className="text-gray-400 hover:text-white transition"><FiLinkedin size={20} /></a>
-              <a href="#" className="text-gray-400 hover:text-white transition"><FiMail size={20} /></a>
+              <a href="https://github.com/rupesh6314/college-discovery-platform" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition"><FiGithub size={20} /></a>
+              <a href="mailto:supportcollegediscovery@gmail.com" className="text-gray-400 hover:text-white transition"><FiMail size={20} /></a>
             </div>
             <p className="text-gray-400 text-sm">📧 supportcollegediscovery@gmail.com<br />📞 +91 8500617107</p>
           </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FiAward, FiGlobe, FiInfo } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const ScholarshipInfoPage = () => {
   const types = [
@@ -42,9 +43,9 @@ const ScholarshipInfoPage = () => {
           <div className="mt-16 bg-orange-50 p-8 rounded-2xl border border-orange-100">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Need help applying?</h3>
             <p className="text-gray-600 mb-6">Our experts can help you identify scholarships you are eligible for and assist with the application process.</p>
-            <a href="mailto:supportcollegediscovery@gmail.com?subject=Help with finding scholarships" className="inline-block bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-700 transition">
+            <Link to="/contact?subject=Help with finding scholarships" className="inline-block bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-700 transition">
               Find Scholarships
-            </a>
+            </Link>
           </div>
         </div>
       </section>

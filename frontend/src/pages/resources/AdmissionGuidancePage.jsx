@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FiCheckCircle, FiFileText, FiUsers } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const AdmissionGuidancePage = () => {
   const steps = [
@@ -43,9 +44,9 @@ const AdmissionGuidancePage = () => {
           </div>
           
           <div className="mt-16 text-center">
-            <a href="mailto:supportcollegediscovery@gmail.com?subject=Book a Free Session" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+            <Link to="/contact?subject=Book a Free Session" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
               Book a Free Session
-            </a>
+            </Link>
           </div>
         </div>
       </section>

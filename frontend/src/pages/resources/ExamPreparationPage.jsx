@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FiBookOpen, FiClock, FiTarget } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const ExamPreparationPage = () => {
   const resources = [
@@ -42,9 +43,9 @@ const ExamPreparationPage = () => {
           <div className="mt-16 p-8 bg-indigo-50 rounded-2xl text-center">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to start practicing?</h3>
             <p className="text-gray-600 mb-6">Join our test series and get detailed analytics on your performance.</p>
-            <a href="mailto:supportcollegediscovery@gmail.com?subject=Inquiry about Exam Preparation Test Series" className="inline-block bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+            <Link to="/contact?subject=Inquiry about Exam Preparation Test Series" className="inline-block bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
               Explore Test Series
-            </a>
+            </Link>
           </div>
         </div>
       </section>

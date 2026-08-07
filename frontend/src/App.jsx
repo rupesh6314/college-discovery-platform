@@ -26,6 +26,7 @@ import AdmissionGuidancePage from './pages/resources/AdmissionGuidancePage'
 import ExamPreparationPage from './pages/resources/ExamPreparationPage'
 import CareerCounselingPage from './pages/resources/CareerCounselingPage'
 import ScholarshipInfoPage from './pages/resources/ScholarshipInfoPage'
+import ContactPage from './pages/ContactPage'
 // Auth Guard
 import PrivateRoute from './components/auth/PrivateRoute'
 
@@ -55,6 +56,7 @@ function App() {
           <Route path="resources/exam-preparation" element={<ExamPreparationPage />} />
           <Route path="resources/career-counseling" element={<CareerCounselingPage />} />
           <Route path="resources/scholarship-info" element={<ScholarshipInfoPage />} />
+          <Route path="contact" element={<ContactPage />} />
         </Route>
 
         <Route path="/auth" element={<AuthLayout />}>

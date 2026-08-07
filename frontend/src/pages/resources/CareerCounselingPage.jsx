@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FiBriefcase, FiCompass, FiTrendingUp } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const CareerCounselingPage = () => {
   const steps = [
@@ -42,9 +43,9 @@ const CareerCounselingPage = () => {
           <div className="mt-16 text-center border-t border-gray-100 pt-12">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Take the First Step</h3>
             <p className="text-gray-600 mb-6">Take our 15-minute free career assessment test to discover careers that match your profile.</p>
-            <a href="mailto:supportcollegediscovery@gmail.com?subject=Start Career Assessment" className="inline-block bg-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-teal-700 transition">
+            <Link to="/contact?subject=Start Career Assessment" className="inline-block bg-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-teal-700 transition">
               Start Assessment
-            </a>
+            </Link>
           </div>
         </div>
       </section>
